@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.itmation.tools</groupId>
+        <artifactId>SimulTagProvider</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <properties>
+        <maven.build.timestamp.format>yyMMddHHmm</maven.build.timestamp.format>
+    </properties>
+
+
+    <artifactId>stp-build</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.itmation.tools</groupId>
+            <artifactId>stp-gateway</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.inductiveautomation.ignitionsdk</groupId>
+                <artifactId>ignition-maven-plugin</artifactId>
+                <version>1.0.9</version>
+
+                <executions>
+                    <execution>
+                        <id>modlexecution</id>
+
+                        <phase>package</phase>
+                        <goals>
+                            <goal>modl</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                    <id>postexecution</id>
+                    <phase>install</phase>
+                    <goals>
+                        <goal>post</goal>
+                    </goals>
+                </execution>
+                </executions>
+
+                <configuration>
+                    <projectScopes>
+                        <projectScope>
+                            <name>stp-gateway</name>
+                            <scope>G</scope>
+                        </projectScope>
+                    </projectScopes>
+
+                    <moduleId>com.itmation.tools.simultagprovider</moduleId>
+                    <moduleName>${project.parent.name}</moduleName>
+                    <moduleDescription>${project.parent.description}</moduleDescription>
+                    <moduleVersion>${project.parent.version}.${maven.build.timestamp}</moduleVersion>
+                    <requiredIgnitionVersion>7.8.0</requiredIgnitionVersion>
+                    <requiredFrameworkVersion>7</requiredFrameworkVersion>
+
+
+                    <hooks>
+                        <hook>
+                            <scope>G</scope>
+                            <hookClass>com.itmation.tools.stp.SimulProvider</hookClass>
+                        </hook>
+                    </hooks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
